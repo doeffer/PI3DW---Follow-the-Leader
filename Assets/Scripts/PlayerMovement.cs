@@ -2,13 +2,17 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class NewBehaviourScript : MonoBehaviour
+public class PlayerMovement : MonoBehaviour
 {
     [Header("Player Movement")]
-    public float moveSpeed;
+    private float moveSpeed;
+    public float walkSpeed;
+    public float sprintSpeed;
+    public float wallrunSpeed;
 
     public float groundDrag;
 
+    [Header("Jumping")]
     public float jumpForce;
     public float jumpCooldown;
     public float airMultiplier;
@@ -16,6 +20,7 @@ public class NewBehaviourScript : MonoBehaviour
 
     [Header("Keybinds")]
     public KeyCode jumpKey = KeyCode.Space;
+    public KeyCode sprintKey = KeyCode.LeftShift;
 
     [Header("Ground Check")]
 
@@ -32,6 +37,17 @@ public class NewBehaviourScript : MonoBehaviour
     Vector3 moveDirection;
 
     Rigidbody rb;
+
+    public moveState state;
+    public enum moveState
+    {
+        walking,
+        sprinting,
+        wallrunning,
+        air
+    }
+
+    public bool wallrunning;
 
     private void Start()
     {
@@ -53,6 +69,7 @@ public class NewBehaviourScript : MonoBehaviour
 
         MyInput();
         LimitSpeed();
+        StateHandler();
 
         //If the player is grounded, drag is applied to the player.
         if (grounded)
@@ -87,7 +104,37 @@ public class NewBehaviourScript : MonoBehaviour
             rb.velocity = new Vector3(limitedVel.x, rb.velocity.y, limitedVel.z);
         }
     }
-    
+
+    private void StateHandler()
+    {
+        //Wallrunning
+        if(wallrunning)
+        {
+            state = moveState.wallrunning;
+            moveSpeed = wallrunSpeed;
+        }
+
+        //Sprinting
+       if(grounded && Input.GetKey(sprintKey))
+       {
+            state = moveState.sprinting;
+            moveSpeed = sprintSpeed;
+       }
+
+        //Walking
+       else if (grounded)
+       {
+            state = moveState.walking;
+            moveSpeed = walkSpeed;
+       }
+
+       //Jumping
+       else
+       {
+            state = moveState.air;
+       }
+    }
+
     private void MovePlayer()
     {
         moveDirection = orient.forward * vertInput + orient.right * horiInput;

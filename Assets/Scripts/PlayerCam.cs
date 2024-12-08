@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using DG.Tweening;
 
 public class PlayerCam : MonoBehaviour
 {
@@ -8,15 +9,24 @@ public class PlayerCam : MonoBehaviour
     public float sensY;
 
     public Transform orient;
+    public Transform camHolder;
+    public float fovTransitionSpeed = 5f; // Speed of FOV transition
 
     float xRotation;
     float yRotation;
+
+    private Camera cam;
+    private float currentFov;
 
     private void Start()
     {
         //locking the cursor to the middle of the screen and hiding it
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
+
+        // Initialize the rotation to look straight ahead
+        cam = GetComponent<Camera>();
+        currentFov = cam.fieldOfView;
     }
 
     private void Update()
@@ -27,12 +37,25 @@ public class PlayerCam : MonoBehaviour
 
         yRotation += mouseX;
         xRotation -= mouseY;
-
+    
         //clamping the mouse input so that the camera cant do full rotations around itself on the X axis
         xRotation = Mathf.Clamp(xRotation, -90f, 90f);
 
         //rotate the camera and orientation of player character
-        transform.rotation = Quaternion.Euler(xRotation, yRotation, 0);
+        camHolder.rotation = Quaternion.Euler(xRotation, yRotation, 0);
         orient.rotation = Quaternion.Euler(0, yRotation, 0);
+
+        // Smoothly transition to the target FOV
+        cam.fieldOfView = Mathf.Lerp(cam.fieldOfView, currentFov, Time.deltaTime * fovTransitionSpeed);
+    }
+
+    public void DoFov(float fov)
+    {
+        currentFov = fov;
+    }
+
+    public void DoTilt(float zTilt)
+    {
+        transform.DOLocalRotate(new Vector3(0, 0, zTilt), 0.25f);
     }
 }
