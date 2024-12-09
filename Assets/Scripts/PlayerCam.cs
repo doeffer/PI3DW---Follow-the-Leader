@@ -58,4 +58,21 @@ public class PlayerCam : MonoBehaviour
     {
         transform.DOLocalRotate(new Vector3(0, 0, zTilt), 0.25f);
     }
+    private void OnEnable()
+    {
+        FollowerScript.onGameOver += FreezeCamera;
+    }
+
+    private void OnDisable()
+    {
+        FollowerScript.onGameOver -= FreezeCamera;
+    }
+
+    private void FreezeCamera()
+    {
+        sensX = 0;
+        sensY = 0;
+        Cursor.lockState = CursorLockMode.None;
+        Cursor.visible = true;
+    }
 }

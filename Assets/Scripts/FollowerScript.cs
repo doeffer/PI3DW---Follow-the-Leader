@@ -68,7 +68,7 @@ public class FollowerScript : MonoBehaviour
         if (player != null)
         {
             float distance = Vector3.Distance(transform.position, player.transform.position);
-            if (distance < 0.5f) 
+            if (distance < 1f) 
             {
                 GameOver();
             }
@@ -98,5 +98,20 @@ public class FollowerScript : MonoBehaviour
             Gizmos.DrawLine(oldPosition, newPosition);
             oldPosition = newPosition;
         }
+    }
+
+    private void OnEnable()
+    {
+        FollowerScript.onGameOver += DisableFollowerScript;
+    }
+
+    private void OnDisable()
+    {
+        FollowerScript.onGameOver -= DisableFollowerScript;
+    }
+
+    private void DisableFollowerScript()
+    {
+        this.enabled = false;
     }
 }

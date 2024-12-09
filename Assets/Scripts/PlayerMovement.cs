@@ -46,6 +46,8 @@ public class PlayerMovement : MonoBehaviour
         wallrunning,
         air
     }
+    
+
 
     public bool wallrunning;
 
@@ -153,8 +155,6 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
-    
-
     private void Jump()
     {
         rb.velocity = new Vector3(rb.velocity.x, 0f, rb.velocity.z);
@@ -166,4 +166,18 @@ public class PlayerMovement : MonoBehaviour
         readyToJump = true;
     }
 
+    private void OnEnable()
+    {
+        FollowerScript.onGameOver += DisablePlayerMovement;
+    }
+
+    private void OnDisable()
+    {
+        FollowerScript.onGameOver -= DisablePlayerMovement;
+    }
+
+    private void DisablePlayerMovement()
+    {
+        rb.constraints = RigidbodyConstraints.FreezeAll;
+    }
 }

@@ -364,7 +364,6 @@
 "Assets/Scripts/CameraHolder.cs"
 "Assets/Scripts/FollowerScript.cs"
 "Assets/Scripts/GameOver.cs"
-"Assets/Scripts/GameOverManager.cs"
 "Assets/Scripts/MainMenu.cs"
 "Assets/Scripts/MultiFollowerScript.cs"
 "Assets/Scripts/PlayerCam.cs"
