@@ -6,9 +6,9 @@ public class MultiFollowerScript : MonoBehaviour
 {
     public Transform leader;
     public GameObject followerPrefab;
-    public float initialLagSeconds = 0.5f;
-    public float lagIncrement = 0.5f;
-    public int numberOfFollowers = 3;
+    public float initialLagSeconds;
+    public float lagIncrement;
+    public int numberOfFollowers;
 
     private List<GameObject> followers = new List<GameObject>();
 

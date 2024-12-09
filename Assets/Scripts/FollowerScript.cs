@@ -1,9 +1,11 @@
+using System;
 using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 
 public class FollowerScript : MonoBehaviour
 {
+    public static event Action onGameOver;
     public Transform leader;
     public float lagSeconds = 0.5f;
     private Vector3[] _positionBuffer;
@@ -15,8 +17,8 @@ public class FollowerScript : MonoBehaviour
 
     void Start()
     {
-        _positionBuffer = new Vector3[500]; // Increase buffer size
-        _timeBuffer = new float[500]; // Increase buffer size
+        _positionBuffer = new Vector3[2000]; // Increase buffer size
+        _timeBuffer = new float[2000]; // Increase buffer size
         _oldestIndex = 0;
         _newestIndex = 0;
         recordTimer = 0f;
@@ -30,7 +32,7 @@ public class FollowerScript : MonoBehaviour
             recordTimer = 0f;
 
             int newIndex = (_newestIndex + 1) % _positionBuffer.Length;
-            if (newIndex != _oldestIndex)
+            if (newIndex != _oldestIndex) 
                 _newestIndex = newIndex;
 
             _positionBuffer[_newestIndex] = leader.position;
@@ -55,6 +57,29 @@ public class FollowerScript : MonoBehaviour
             // Set the follower's position to the interpolated target position
             transform.position = targetPosition;
         }
+
+        // Check for game over condition
+        CheckGameOver();
+    }
+
+    void CheckGameOver()
+    {
+        GameObject player = GameObject.FindGameObjectWithTag("Player");
+        if (player != null)
+        {
+            float distance = Vector3.Distance(transform.position, player.transform.position);
+            if (distance < 0.5f) 
+            {
+                GameOver();
+            }
+        }
+    }
+
+    void GameOver()
+    {
+        // Display game over screen
+        Debug.Log("Game Over");
+        onGameOver?.Invoke();
     }
 
     void OnDrawGizmos()
