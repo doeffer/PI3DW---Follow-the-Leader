@@ -43,3 +43,11 @@ Scenes
   
 ProBuilder
 - ProBuilder was heavily used for the Arena scene design, as well as testing.
+
+Resources used
+- FIRST PERSON MOVEMENT in 10 MINUTES - Unity Tutorial - https://youtu.be/f473C43s8nE?si=DcxMWcaxrGEX75OL
+- ADVANCED WALL RUNNING – Unity Tutorial (Remastered) - https://www.youtube.com/watch?v=gNt9wBOrQO4 
+- WALL JUMPING & CAMERA EFFECTS – Unity Tutorial - https://www.youtube.com/watch?v=WfW0k5qENxM 
+- How to make an object track another object’s exact movement - https://gamedev.stackexchange.com/questions/171698/how-to-make-an-object-track-another-objects-exact-movements 
+- 5 Minute MAIN MENU Unity Tutorial – 
+https://www.youtube.com/watch?v=-GWjA6dixV4  
